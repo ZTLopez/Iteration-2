@@ -5,7 +5,9 @@ class Level2B extends BaseScene {
         this.tileDataSource = 'assets/maps/level2B.json';
         this.greedMax = 48;
         this.sanityMax = 18;
-        this.shader = "Greyscale";
+        this.levelCode = 2; 
+        this.shader = "DullColour";
+
     }
 
     preload() {
@@ -17,14 +19,14 @@ class Level2B extends BaseScene {
 
         this.pipeTick = 0.0;
 
-        this.pipeline = this.game.renderer.addPipeline(this.shader, new Greyscale(this.game));
+        this.pipeline = this.game.renderer.addPipeline(this.shader, new DullColour(this.game));
         this.pipeline.setFloat2('uResolution', game.config.width, game.config.height);
         //this.pipeline.setFloat2('radius', 0.3);
 
-        this.input.on("pointerdown", function () {
+        //this.input.on("pointerdown", function () {
             //this.filter.setPipeline(this.shader);
             this.cameras.main.setRenderToTexture(this.shader);
-        }, this)
+        //}, this)
 
 
     }

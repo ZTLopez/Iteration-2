@@ -5,6 +5,8 @@ class Level1 extends BaseScene {
     this.tileDataSource = 'assets/maps/level1.json';
     this.greedMax = 26;
       this.sanityMax = 8;
+      this.levelCode = 1;
+      this.shader = "Spotlight";
       
   }
 
@@ -17,11 +19,12 @@ class Level1 extends BaseScene {
       this.greed = 0;
       this.sanity = 0;
 
+
+
   }
 
   update(time, delta){
       super.update(time, delta);
 
-     
   }
 }

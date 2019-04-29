@@ -44,7 +44,7 @@
                  "name":"playerSpawn",
                  "point":true,
                  "rotation":0,
-                 "type":"",
+                 "type":"Spawn",
                  "visible":true,
                  "width":0,
                  "x":128,
@@ -445,18 +445,6 @@
                  "width":0,
                  "x":2240,
                  "y":576
-                }, 
-                {
-                 "height":0,
-                 "id":39,
-                 "name":"Squirrel",
-                 "point":true,
-                 "rotation":0,
-                 "type":"Enemy",
-                 "visible":true,
-                 "width":0,
-                 "x":2112,
-                 "y":1024
                 }, 
                 {
                  "height":0,

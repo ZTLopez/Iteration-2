@@ -5,6 +5,7 @@ class BaseScene extends Phaser.Scene {
         this.id = id;
         this.tileDataKey;
         this.tileDataSource;
+        this.levelCode;
         this.healthText;
         this.sanitytext;
         this.greedText;
@@ -39,7 +40,7 @@ class BaseScene extends Phaser.Scene {
     }
 
     create() {
-
+//loads in the tilesheet and the level map depending on keys within each level
         const map = this.make.tilemap({ key: this.tileDataKey });
         const tileset = map.addTilesetImage("tilesheet");
         const sky = map.addTilesetImage("sky");
@@ -48,7 +49,7 @@ class BaseScene extends Phaser.Scene {
         this.ground = map.createStaticLayer("collision", [tileset], 0, 0);
         this.ground.setCollisionByProperty({ collides: true });
 
-               
+          // finds the objects from within tiled and spawns them in said co-ordinates
         map.findObject("object", this.SpawnPlayer, this);
         map.findObject("object", this.Spawn, this);
 
@@ -76,7 +77,7 @@ class BaseScene extends Phaser.Scene {
 
         this.graphics = this.add.graphics({ fillStyle: { color: 0x0000aa } });
 
-
+// cameras showing the zoom, camera bounds and even when to follow the player
         this.cameras.main.setZoom(1);
         this.cameras.main.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
         this.cameras.main.startFollow(this.player.sprite, false, 0.5, 0.5).set;
@@ -88,6 +89,7 @@ class BaseScene extends Phaser.Scene {
         console.log(this.scene.sanity)
     }
 
+    //Spawns the player in using its given object type and name to place it where it is located in Tiled.
     SpawnPlayer(object) {
         if (object.type === "Spawn") {
             if (object.name === "playerSpawn") {
@@ -96,6 +98,8 @@ class BaseScene extends Phaser.Scene {
         }
     }
 
+
+    //Spawns things in. Depending on the object type and name in specific designatd areas in Tiled.
     Spawn(object) {
         this.coin = []
         if (object.type === "Spawn") {
@@ -118,33 +122,77 @@ class BaseScene extends Phaser.Scene {
         }
     }
 
+
+    //portal to next level collision. Taking the greed and sanity into consideration, as well as the level code in order to determine
+    //which level to go to next. Reads the &'s to see what is required for the collision on the portal to have a certain outcome.
     handleCollision(object1, object2) {
 
         console.log(this.id);
-        if ((this.greed < this.greedMax/2 && this.sanity < this.sanityMax/2) && (this.id === "Level1")) {
+        if ((this.greed < this.greedMax / 2 && this.sanity < this.sanityMax / 2) && (this.levelCode === 1)) {
             //pure level 2
-            this.scene.start("Level2A", { greed: this.greed , sanity: this.sanity });
+            this.scene.start("Level2A", { greed: this.greed, sanity: this.sanity });
         }
-        else if ((this.greed >= this.greedMax/2 && this.sanity < this.sanityMax/2) && (this.id === "Level1")) {
-          //greed level 2
-            this.scene.start("Level2B", { greed: this.greed , sanity: this.sanity });
+        else if ((this.greed >= this.greedMax / 2 && this.sanity < this.sanityMax / 2) && (this.levelCode === 1)) {
+            //greed level 2
+            this.scene.start("Level2B", { greed: this.greed, sanity: this.sanity });
         }
-        else if ((this.greed < this.greedMax/2 && this.sanity >= this.sanityMax/2) && (this.id === "Level1")) {
-          //insanity level 2
-            this.scene.start("Level2C", { greed: this.greed , sanity: this.sanity });
+        else if ((this.greed < this.greedMax / 2 && this.sanity >= this.sanityMax / 2) && (this.levelCode === 1)) {
+            //insanity level 2
+            this.scene.start("Level2C", { greed: this.greed, sanity: this.sanity });
         }
-        else if (( this.greed >= this.greedMax/2 && this.sanity >=  this.sanityMax/2) && (this.id === "Level1")) {
-          //evil level 2
-            this.scene.start("Level2D", { greed: this.greed , sanity: this.sanity});
+        else if ((this.greed >= this.greedMax / 2 && this.sanity >= this.sanityMax / 2) && (this.levelCode === 1)) {
+            //evil level 2
+            this.scene.start("Level2D", { greed: this.greed, sanity: this.sanity });
         }
-        else if ((this.greed < this.greedMax/2) && (this.id === "Level2A" || this.id === "Level2B" || this.id === "Level2C" || this.id === "Level2D")) {
+        else if ((this.greed < this.greedMax / 2 && this.sanity < this.sanityMax / 2) && (this.levelCode === 2)) {
             //pure level 3
-            this.scene.start("Level3A", { greed: this.greed , sanity: this.sanity });
+            this.scene.start("Level3A", { greed: this.greed, sanity: this.sanity });
         }
-        else if ((this.greed > this.greedMax / 2) && (this.id === "Level2A" || this.id === "Level2B" || this.id === "Level2C" || this.id === "Level2D")) {
+        else if ((this.greed > this.greedMax / 2 && this.sanity < this.sanityMax / 2) && (this.levelCode === 2)) {
             //greed level 3
-            this.scene.start("Level3B", { greed: this.greed , sanity: this.sanity });
+            this.scene.start("Level3B", { greed: this.greed, sanity: this.sanity });
         }
+        else if ((this.greed < this.greedMax / 2 && this.sanity > this.sanityMax / 2) && (this.levelCode === 2)) {
+            //insanity level 3
+            this.scene.start("Level3C", { greed: this.greed, sanity: this.sanity });
+        }
+        else if ((this.greed > this.greedMax / 2 && this.sanity > this.sanityMax / 2) && (this.levelCode === 2)) {
+            //evil level 3
+            this.scene.start("Level3D", { greed: this.greed, sanity: this.sanity });
+        }
+        else if ((this.greed < this.greedMax / 2 && this.sanity < this.sanityMax / 2) && (this.levelCode === 3)) {
+            //pure level 4
+            this.scene.start("Level4A", { greed: this.greed, sanity: this.sanity });
+        }
+        else if ((this.greed > this.greedMax / 2 && this.sanity < this.sanityMax / 2) && (this.levelCode === 3)) {
+            //greed level 4
+            this.scene.start("Level4B", { greed: this.greed, sanity: this.sanity });
+        }
+        else if ((this.greed < this.greedMax / 2 && this.sanity > this.sanityMax / 2) && (this.levelCode === 3)) {
+            //insanity level 4
+            this.scene.start("Level4C", { greed: this.greed, sanity: this.sanity });
+        }
+        else if ((this.greed > this.greedMax / 2 && this.sanity > this.sanityMax / 2) && (this.levelCode === 3)) {
+            //evil level 4
+            this.scene.start("Level4D", { greed: this.greed, sanity: this.sanity });
+        }
+        else if ((this.greed < this.greedMax / 2 && this.sanity < this.sanityMax / 2) && (this.levelCode === 4)) {
+            //pure ending
+            this.scene.start("Ending1", { greed: this.greed, sanity: this.sanity });
+        }
+        else if ((this.greed > this.greedMax / 2 && this.sanity < this.sanityMax / 2) && (this.levelCode === 4)) {
+            //greed ending
+            this.scene.start("Ending2", { greed: this.greed, sanity: this.sanity });
+        }
+        else if ((this.greed < this.greedMax / 2 && this.sanity > this.sanityMax / 2) && (this.levelCode === 4)) {
+            //insanity ending
+            this.scene.start("Ending3", { greed: this.greed, sanity: this.sanity });
+        }
+        else if ((this.greed > this.greedMax / 2 && this.sanity > this.sanityMax / 2) && (this.levelCode === 4)) {
+            //evil ending
+            this.scene.start("Ending4", { greed: this.greed, sanity: this.sanity });
+        }
+
     }
 
 
@@ -189,7 +237,7 @@ class BaseScene extends Phaser.Scene {
         this.cameras.main.width,
         this.cameras.main.height*0.11
         );
-                
+
       this.graphics.clear();
       this.graphics.fillGradientStyle(0xffffff,0xffffff,0.5,0.5,0.5);
       this.graphics.fillRectShape(this.rect1).setScrollFactor(0);

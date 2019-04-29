@@ -44,7 +44,7 @@
                  "name":"playerSpawn",
                  "point":true,
                  "rotation":0,
-                 "type":"",
+                 "type":"Spawn",
                  "visible":true,
                  "width":0,
                  "x":128,

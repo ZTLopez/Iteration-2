@@ -1,8 +1,8 @@
-class Level3B extends BaseScene {
+class Level3D extends BaseScene {
     constructor() {
-        super("Level3B");
-        this.tileDataKey = 'Level3B';
-        this.tileDataSource = 'assets/maps/level3B.json';
+        super("Level3D");
+        this.tileDataKey = 'Level3D';
+        this.tileDataSource = 'assets/maps/level3D.json';
         this.greedMax = 74;
         this.sanityMax = 26;
         this.levelCode = 3;
@@ -15,7 +15,7 @@ class Level3B extends BaseScene {
 
     create() {
         super.create();
-        
+
         this.pipeTick = 0.0;
 
         this.pipeline = this.game.renderer.addPipeline(this.shader, new DarkColour(this.game));

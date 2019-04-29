@@ -5,7 +5,7 @@ var config = {
   physics: {
     default: 'arcade',
     arcade: {
-      debug: true,
+      debug: false,
       gravity: {
         y: 750
       }
@@ -14,7 +14,7 @@ var config = {
 
   pixelArt: true,
 
-    scene: [Menu, GameOver, Level1, Level2A, Level2B, Level2C, Level2D, Level3A, Level3B],
+    scene: [Menu, GameOver, Level1, Level2A, Level2B, Level2C, Level2D, Level3A, Level3B, Level3C, Level3D, Level4A, Level4B, Level4C, Level4D, Ending1, Ending2, Ending3, Ending4],
 
     callbacks: {
         postBoot: function () {

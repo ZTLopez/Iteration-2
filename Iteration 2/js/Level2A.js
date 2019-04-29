@@ -5,6 +5,7 @@ class Level2A extends BaseScene {
         this.tileDataSource = 'assets/maps/level2A.json';
         this.greedMax = 48;
         this.sanityMax = 18;
+        this.levelCode = 2;
     }
 
     preload() {

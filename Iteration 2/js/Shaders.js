@@ -188,7 +188,7 @@ class Spotlight extends Phaser.Renderer.WebGL.Pipelines.TextureTintPipeline {
                 vec3 makeCircle(vec2 pixelPos, vec2 center){
                     float dist = distance(pixelPos, center); //Find the distance between the pixel and the player's center.
                     
-                    float circle = smoothstep(0., radius, dist); //I'm not quite sure how this actually makes a circle but it does! Feel free to look up smoothstep in more detail.
+                    float circle = smoothstep(0.0, radius, dist); //I'm not quite sure how this actually makes a circle but it does! Feel free to look up smoothstep in more detail.
                     
                     return vec3(1.-circle); //vec3(circle) makes a black circle around the player. vec3(1.-circle) makes a clear circle around the player and black everywhere else.
                 }
@@ -210,7 +210,7 @@ class Spotlight extends Phaser.Renderer.WebGL.Pipelines.TextureTintPipeline {
 
 
 
-class Colour extends Phaser.Renderer.WebGL.Pipelines.TextureTintPipeline {
+class DullColour extends Phaser.Renderer.WebGL.Pipelines.TextureTintPipeline {
     constructor(game){
         super({
             game: game,
@@ -227,7 +227,34 @@ class Colour extends Phaser.Renderer.WebGL.Pipelines.TextureTintPipeline {
                 
                 void main(void) {
                     vec4 texture = texture2D(uMainSampler, outTexCoord); //Create texture variable, containing colour and alpha values of the pixels
-                    vec4 colour = vec4(1.0,abs(sin(uTime)),1.0,abs(sin(uTime)));
+                    vec4 colour = vec4(0.95,0.67,0.67,1.0);
+                    gl_FragColor = texture*colour; //Create a vec4 from the grey vec3 and apply to the shader. This effectively ends the shader.
+                }
+            `
+        });
+    }
+}
+
+
+
+class DarkColour extends Phaser.Renderer.WebGL.Pipelines.TextureTintPipeline {
+    constructor(game) {
+        super({
+            game: game,
+            renderer: game.renderer,
+
+            fragShader: `
+                 precision mediump float;
+                
+                uniform vec2 uResolution;
+                uniform float uTime;
+
+                uniform sampler2D uMainSampler;
+                varying vec2 outTexCoord;
+                
+                void main(void) {
+                    vec4 texture = texture2D(uMainSampler, outTexCoord); //Create texture variable, containing colour and alpha values of the pixels
+                    vec4 colour = vec4(0.612,0.403,0.403,1.0);
                     gl_FragColor = texture*colour; //Create a vec4 from the grey vec3 and apply to the shader. This effectively ends the shader.
                 }
             `
